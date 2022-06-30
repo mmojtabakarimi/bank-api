@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CheckIranBankCard;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DoPaymentRequest extends FormRequest
+class CustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +21,11 @@ class DoPaymentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'origin_card' => ['required', new CheckIranBankCard()],
-            'destination_card' => ['required', new CheckIranBankCard()],
-            'payment_value' => 'required |numeric|min:1000|max:50000000'
+            'mobile_number' => 'required |digits:11',
+            'name' => 'required'
 
         ];
     }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
 
-    Route::get('checkhealth', [PaymentController::class, 'CheckHealth']);
-    Route::post('transferMoney', [PaymentController::class, 'DoPayment']);
+    Route::post('customer', [CustomerController::class, 'AddCustomer']);
+    Route::get('customers', [CustomerController::class, 'ListCustomers']);
+
+    Route::post('addcard', [CardController::class, 'AddCard']);
+    Route::get('cards', [CardController::class, 'ListCards']);
+    Route::get('card/{customerId}', [CardController::class, 'ListCustomerCard']);
+
+
+    Route::post('transfer', [PaymentController::class, 'DoPayment']);
+    Route::get('transfers/{count}', [PaymentController::class, 'listPaymentByCount']);
+    Route::get('costs/{count}', [PaymentController::class, 'listCostByCount']);
+
 
 });
