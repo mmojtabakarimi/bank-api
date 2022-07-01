@@ -8,13 +8,3 @@
 </p>
 
 ## Wallet API
-1) get wallet all records 
- /api/v1/balance
-2) get wallet sum amount by user_id
- /api/v1/balance/{user_id}
-3) create wallet record
- /api/v1/balance/{user_id} 
-with amount as  parameter
-4)get all amount per day
- /api/v1/getdailybalance
-5)php artisan calculate:dailyAmount #get all amount per day
