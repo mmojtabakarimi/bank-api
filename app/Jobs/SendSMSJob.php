@@ -25,7 +25,7 @@ class SendSMSJob implements ShouldQueue
      */
     private $smsApi;
 
-    public function __construct($details,SmsApi $smsApi)
+    public function __construct($details, SmsApi $smsApi)
     {
         $this->details = $details;
         $this->smsApi = $smsApi;
@@ -38,14 +38,27 @@ class SendSMSJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $origin_sms_message = 'New Balance after pay ' . $this->details['payment_value'] . ' will be ' . $this->details['origin_new_balance'];
+        $destination_sms_message = 'New Balance after receiving ' . $this->details['payment_value'] . ' will be ' . $this->details['destination_new_balance'];
+
+
         $result = $this->smsApi->call(
             'POST',
-            $this->smsApi->apiKey.'/sms/send.json',
+            $this->smsApi->apiKey . '/sms/send.json',
             [
-                'receptor'=>'09122356709',
-                'sender'=>'10004346',
-                'message'=>'this is test',
+                'receptor' => $this->details['origin_mobile_number'],
+                'sender' => '10004346',
+                'message' => $origin_sms_message,
+            ]
+        );
+
+        $result = $this->smsApi->call(
+            'POST',
+            $this->smsApi->apiKey . '/sms/send.json',
+            [
+                'receptor' => $this->details['destination_mobile_number'],
+                'sender' => '10004346',
+                'message' => $destination_sms_message,
             ]
         );
 

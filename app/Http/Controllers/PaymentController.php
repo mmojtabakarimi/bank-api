@@ -42,7 +42,7 @@ class PaymentController extends Controller
         return response($sms_data, 200);
     }
 
-    public function listCostByCount($count)
+    public function listPaymentByCount($count)
     {
         return response()->json(transactionLogs::all()->take($count));
     }

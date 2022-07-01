@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\customers;
 use App\Models\customerCards;
 use App\Models\transactionCosts;
 use App\Models\transactionLogs;
@@ -23,6 +24,19 @@ class PaymentService
         }
 
         return (int)$cardInfo->balance;
+    }
+
+    public function GetMobileNumberByCard($card)
+    {
+        $cardInfo = customerCards::all()->where('card_number', $card)->first();
+
+        if ($cardInfo === null) {
+            abort(400, 'Invalid origin Card Number');
+        }
+
+        $customerInfo = customers::all()->where('id', $cardInfo->customer_id)->first();
+
+        return $customerInfo->mobile_number;
     }
 
     public function DoPayment($origin_card, $destination_card, $payment_value)
@@ -50,6 +64,9 @@ class PaymentService
                 'destination_card' => $destination_card,
                 'origin_new_balance' => $origin_new_balance,
                 'destination_new_balance' => $destination_new_balance,
+                'payment_value' => $payment_value,
+                'origin_mobile_number' => $this->GetMobileNumberByCard($origin_card),
+                'destination_mobile_number' => $this->GetMobileNumberByCard($destination_card),
                 'reference_id' => $reference_id,
             ];
         }

@@ -26,10 +26,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('cards', [CardController::class, 'ListCards']);
     Route::get('card/{customerId}', [CardController::class, 'ListCustomerCard']);
 
-
     Route::post('transfer', [PaymentController::class, 'DoPayment']);
     Route::get('transfers/{count}', [PaymentController::class, 'listPaymentByCount']);
-    Route::get('costs/{count}', [PaymentController::class, 'listCostByCount']);
-
-
 });
